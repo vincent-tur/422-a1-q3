@@ -85,8 +85,6 @@ public class Main {
                 if(!(x == 1 && y==1)){
                     if(x == 3 && y == 1){
                         System.out.println("yo");
-                        //TODO: After hitting this breakpoint, set a breakpoint in StateReachable populateRtnCoords
-                        //TODO: Look at the potential Coords listed there. It's not right.
                     }
                     stateReachables[x][y] = new StateReachable(new Coord(x, y),givenAction);
 

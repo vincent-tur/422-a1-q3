@@ -77,30 +77,30 @@ public class Coord {
 
 
     public Coord getLeftCoord(){
-        return wallDetect(new Coord(this.x - 1, this.y));
-//        return getGeneralCoord(new Coord(this.x - 1, this.y));
+//        return wallDetect(new Coord(this.x - 1, this.y));
+        return getGeneralCoord(new Coord(this.x - 1, this.y));
     }
 
     public Coord getRightCoord(){
-        return wallDetect(new Coord(this.x + 1, this.y));
-//        return getGeneralCoord(new Coord(this.x + 1, this.y));
+//        return wallDetect(new Coord(this.x + 1, this.y));
+        return getGeneralCoord(new Coord(this.x + 1, this.y));
     }
 
     public Coord getDownCoord(){
-        return wallDetect(new Coord(this.x, this.y - 1));
-//        return getGeneralCoord(new Coord(this.x, this.y - 1));
+//        return wallDetect(new Coord(this.x, this.y - 1));
+        return getGeneralCoord(new Coord(this.x, this.y - 1));
     }
 
     public Coord getUpCoord(){
-        return wallDetect(new Coord(this.x, this.y + 1));
-//        return getGeneralCoord(new Coord(this.x, this.y+1));
+//        return wallDetect(new Coord(this.x, this.y + 1));
+        return getGeneralCoord(new Coord(this.x, this.y+1));
 
     }
 //
     private Coord getGeneralCoord(Coord newCoord){
 
         newCoord = wallDetect(newCoord);
-        newCoord = terminalDetect(newCoord);
+//        newCoord = terminalDetect(newCoord);
         return newCoord;
 
     }

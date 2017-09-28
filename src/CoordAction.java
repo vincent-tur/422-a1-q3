@@ -7,9 +7,20 @@ public class CoordAction extends Coord {
     public Coord finalCoord;
 
     public double prob;
+
+    public int potentialCoordIndex;
+
+
+    public boolean isTerminal;
     public CoordAction(Coord checkCoord, Coord originalCoord, String action, double prob){
+        isTerminal = false;
+
         this.checkCoord = checkCoord;
         this.originalCoord = originalCoord;
+        if(this.originalCoord.isTerminalState()){
+            this.checkCoord = this.originalCoord;
+            isTerminal = true;
+        }
         this.action = action;
         this.prob = prob;
 
@@ -67,9 +78,12 @@ public class CoordAction extends Coord {
         this.x = setCoord.x;
         this.y = setCoord.y;
 
-//        if(isTerminalOriginally() && !(isTerminalDifferentOriginalFinal())){
-//            this.prob = 1;
-//        }
+        if(isTerminalOriginally() && !(isTerminalDifferentOriginalFinal())){
+            if(isTerminalState(this.finalCoord)){
+                this.isTerminal = true;
+                this.prob = 1;
+            }
+        }
     }
 
     public boolean inMiddleWall(Coord checkCoord){

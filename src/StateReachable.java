@@ -9,8 +9,10 @@ public class StateReachable {
     public Coord originalCoord;
     public ArrayList<CoordAction> rtnCoords;
     public String action;
-    public List<CoordAction> potentialCoords = new ArrayList<>();
-//
+
+    public List<CoordAction> potentialCoords;
+    public CoordActionList newPotentialCoords;
+    //
 //    public List<Integer> rtnX = new ArrayList<Integer>();
 //    public List<Integer> rtnY = new ArrayList<Integer>();
 //    public List<String> rtnAction = new ArrayList<String>();
@@ -19,10 +21,9 @@ public class StateReachable {
 
     public StateReachable(Coord originalCoord, String action){
         rtnCoords = new ArrayList<CoordAction>();
-        this.potentialCoords = new ArrayList<CoordAction>();
         this.action = action;
-
         this.originalCoord = originalCoord;
+        this.potentialCoords = new ArrayList<CoordAction>();
         this.cellsReachableFrom();
     }
 
@@ -39,7 +40,8 @@ public class StateReachable {
         }
         checkCoords = removeDupes(checkCoords);
         checkCells(checkCoords);
-        populateRtnCoords(potentialCoords);
+        this.newPotentialCoords = new CoordActionList(this.potentialCoords, this.originalCoord);
+        populateRtnCoords();
     }
 
     public void checkCells(List<Coord> checkCoords){
@@ -94,17 +96,23 @@ public class StateReachable {
 
     }
 
-    public void populateRtnCoords(List<CoordAction> potentialCoords){
-        for(int i = 0; i < potentialCoords.size(); i++){
-            CoordAction curPotentialCoord = potentialCoords.get(i);
+    public void populateRtnCoords(){
+        for(int i = 0; i < newPotentialCoords.size(); i++){
+            if(i == newPotentialCoords.terminalStateIndex){
+                int xx = 0;
+            }
+            CoordAction curPotentialCoord = newPotentialCoords.get(i);
             if(!curPotentialCoord.isTerminalDifferentOriginalFinal()){
                 if(this.originalCoord.eq(curPotentialCoord.finalCoord)){
                     if(action.equals(curPotentialCoord.action)){
+//                        curPotentialCoord.potentialCoordIndex = i;
                         rtnCoords.add(curPotentialCoord);
                     }
                 }
             }
         }
+
+        int xx = 0;
     }
 
 
