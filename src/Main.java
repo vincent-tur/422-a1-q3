@@ -155,47 +155,6 @@ public class Main {
         return summationValue;
     }
 
-//    public static double getReachable(int x, int y, String givenAction){
-//        stateReachables[x][y] = new StateReachable(x,y,givenAction);
-//        if(givenAction.equals("left"))
-//            return calculateReachableTo(x,y, givenAction);
-//
-//        return 0;
-//    }
-
-
-    public static double calculateReachableTo(int x, int y, String givenAction){
-        List<Integer> rtnX = new ArrayList<Integer>();
-        List<Integer> rtnY = new ArrayList<Integer>();
-        List<Double> probs = new ArrayList<Double>();
-
-
-        int leftX = x + 1; //IT'S A (+ 1) because the given x,y is reachable from the right if a left action was taken
-        int leftY = y;
-        if(leftX >= 4) leftX = 0;
-        rtnX.add(leftX);
-        rtnY.add(leftY);
-        probs.add(0.8);
-
-
-        int downX = x;
-        int downY = y + 1;
-        if(downY >= 3) downY = 0;
-        rtnX.add(downX);
-        rtnY.add(downY);
-        probs.add(0.1);
-
-        int upX = x;
-        int upY = y - 1;
-        if(upY < 0) upY = 3;
-        rtnX.add(upX);
-        rtnY.add(upY);
-        probs.add(0.1);
-
-        return subFormulaDoSummation(rtnX, rtnY, probs);
-    }
-
-
 
     public static void firstSequence(){
         String[] actions = {"up", "up", "up"};
@@ -213,70 +172,6 @@ public class Main {
 
         Main.beliefUpdate(beliefState, actions, observations);
     }
-//
-//    public static double calculateReachableTo(int x, int y, String givenAction){
-//        List<Integer> rtnX = new ArrayList<Integer>();
-//        List<Integer> rtnY = new ArrayList<Integer>();
-//        List<Double> probs = new ArrayList<Double>();
-//
-//        int leftX = x + 1; //IT'S A (+ 1) because the given x,y is reachable from the right if a left action was taken
-//        int leftY = y;
-//        if(leftX >= 4) leftX = 0;
-//        rtnX.add(leftX);
-//        rtnY.add(leftY);
-//        probs.add(0.8);
-//
-//
-//        int downX = x;
-//        int downY = y + 1;
-//        if(downY >= 3) downY = 0;
-//        rtnX.add(downX);
-//        rtnY.add(downY);
-//        probs.add(0.1);
-//
-//        int upX = x;
-//        int upY = y - 1;
-//        if(upY < 0) upY = 3;
-//        rtnX.add(upX);
-//        rtnY.add(upY);
-//        probs.add(0.1);
-//
-//        return formulaDoSummation(rtnX, rtnY, probs);
-//    }
-
-    /*
-        Returns x,y coordinates of previous state that reached given coordinates after taking given action
-     */
-//    public static int[] getCoordsReachableTo(int x, int y, String givenAction){
-//        int newX = 0;
-//        int newY = 0;
-//
-//        if(givenAction.equals("left") && notInMiddleWall(x + 1, y)){
-//            newX = x + 1;
-//        }else if(givenAction.equals("right") && notInMiddleWall(x - 1, y)){
-//            newX = x - 1;
-//        }else if(givenAction.equals("down") && notInMiddleWall(x, y + 1)) {
-//            newY = y + 1;
-//        }else if(givenAction.equals("up") && notInMiddleWall(x, y - 1)){
-//            newY = y - 1;
-//        }
-//
-//        if(newX < 0) newX = 0;
-//        if(newX > 3) newX = 3;
-//        if(newY < 0) newY = 0;
-//        if(newY > 2) newY = 2;
-//
-//        int[] rtnAry = {newX, newY};
-//        return rtnAry;
-//    }
-
-//    public static boolean notInMiddleWall(int x, int y){
-//        if(x == 1 && y == 1){
-//            return true;
-//        }
-//        return false;
-//    }
-
     public static double subFormulaDoSummation(List<Integer> x, List<Integer> y, List<Double> probs){
         //Does the summation part of the formula.
         int rtnVal = 0;

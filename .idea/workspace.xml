@@ -2,17 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f96b8317-2c6c-4e4b-b5d2-900f3bb11773" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/CoordActionList.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/q3/Coord.class" afterPath="$PROJECT_DIR$/out/production/q3/Coord.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/q3/CoordAction.class" afterPath="$PROJECT_DIR$/out/production/q3/CoordAction.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/q3/Main.class" afterPath="$PROJECT_DIR$/out/production/q3/Main.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/q3/StateReachable.class" afterPath="$PROJECT_DIR$/out/production/q3/StateReachable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Coord.java" afterPath="$PROJECT_DIR$/src/Coord.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/CoordAction.java" afterPath="$PROJECT_DIR$/src/CoordAction.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main.java" afterPath="$PROJECT_DIR$/src/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/StateReachable.java" afterPath="$PROJECT_DIR$/src/StateReachable.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -107,13 +97,9 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="721">
-              <caret line="196" column="0" lean-forward="true" selection-start-line="196" selection-start-column="0" selection-end-line="196" selection-end-column="0" />
-              <folding>
-                <element signature="e#4846#4855#0" expanded="true" />
-                <element signature="e#4901#4910#0" expanded="true" />
-                <element signature="e#4956#4964#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="2618">
+              <caret line="156" column="0" lean-forward="true" selection-start-line="156" selection-start-column="0" selection-end-line="156" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -328,12 +314,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1506631993978</updated>
-      <workItem from="1506631995214" duration="5865000" />
+      <workItem from="1506631995214" duration="5887000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5865000" />
+    <option name="totallyTimeSpent" value="5887000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1066" height="1656" extended-state="6" />
@@ -429,13 +415,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="721">
-          <caret line="196" column="0" lean-forward="true" selection-start-line="196" selection-start-column="0" selection-end-line="196" selection-end-column="0" />
-          <folding>
-            <element signature="e#4846#4855#0" expanded="true" />
-            <element signature="e#4901#4910#0" expanded="true" />
-            <element signature="e#4956#4964#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="2618">
+          <caret line="156" column="0" lean-forward="true" selection-start-line="156" selection-start-column="0" selection-end-line="156" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
