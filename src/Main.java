@@ -13,10 +13,14 @@ public class Main {
 //    static Map<Integer, Map<Integer, Integer>> beliefState;
 
     static double[][] lastBeliefState;
+    static double[][] intermBeliefState;
     static double[][] beliefState;
+
     static StateReachable[][] stateReachables;
 
     public static void main(String [] args){
+        lastBeliefState = new double[4][3];
+        intermBeliefState = new double[4][3];
         beliefState = new double[4][3];
         stateReachables = new StateReachable[4][3];
         testSequence();
@@ -26,18 +30,21 @@ public class Main {
     public static void testSequence(){
         String[] actions = {"left", "left", "left", "left", "left"};
         String[] observations = {"2","2","2","2","2"};
-        setUniformBeliefState();
-        for (String action:
-             actions) {
-            oneBeliefUpdate(action, "2");
-        }
+//        getUniformBeliefState();
+//        for (String action:
+//             actions) {
+//            oneBeliefUpdate(action, "2");
+//        }
 
+        beliefUpdate(getUniformBeliefState(), actions, observations);
 
     }
 
 
 
-    public static void setUniformBeliefState(){
+    public static double[][] getUniformBeliefState(){
+        double[][] beliefState = new double[4][3];
+
         beliefState[0][0] = 0.111;
         beliefState[0][1] = 0.111;
         beliefState[0][2] = 0.111;
@@ -58,26 +65,42 @@ public class Main {
         //TODO: Must set terminal states to 0;
         beliefState[3][2] = 0;
         beliefState[3][1] = 0;
+        return beliefState;
     }
 
     //0.111 for each square if initial state not given.
     public static double[][] beliefUpdate(double[][] initialBeliefState, String[] actions, String[] observations){
-        lastBeliefState = initialBeliefState;
-        double[][] intermBeliefState = initialBeliefState;
-        if(actions.length == 0){
-            return initialBeliefState;
-        }
-
-        int observationProb = 0;
-        if(observations[observations.length -1].equals("1")){
-
-        }else if(observations[observations.length -1].equals("2")){
-
-        }else if(observations[observations.length -1].equals("end")){
-
+        beliefState = initialBeliefState;
+//        if(actions.length == 0){
+//            return initialBeliefState;
+//        }
+//
+//        int observationProb = 0;
+//        if(observations[observations.length -1].equals("1")){
+//
+//        }else if(observations[observations.length -1].equals("2")){
+//
+//        }else if(observations[observations.length -1].equals("end")){
+//
+//        }
+        for(int i = 0; i < actions.length; i++){
+            lastBeliefState = cloneBeliefState(beliefState);
+            intermBeliefState = cloneBeliefState(beliefState);
+            beliefState = oneBeliefUpdate(actions[i], observations[i]);
+            boolean iz = false;
         }
 
         return beliefState;
+    }
+
+    public static double[][] cloneBeliefState(double[][] bState){
+        double[][] clonedBeliefState = new double[4][3];
+
+        for(int i=0; i<bState.length; i++)
+            for(int j=0; j<bState[i].length; j++)
+                clonedBeliefState[i][j]=bState[i][j];
+
+        return clonedBeliefState;
     }
 
     public static double[][] oneBeliefUpdate(String givenAction, String observation){
@@ -96,7 +119,7 @@ public class Main {
 
                     double summationValue = doSummation(stateReachables[x][y]);
 
-                    beliefState[x][y] =  sensorProb * summationValue;
+                    intermBeliefState[x][y] =  sensorProb * summationValue;
 
                     normalizeTable();
 
@@ -106,7 +129,7 @@ public class Main {
             }
         }
 
-        return beliefState;
+        return intermBeliefState;
     }
 
     /*
@@ -149,7 +172,7 @@ public class Main {
 
             CoordAction curCoord = stateReachable.rtnCoords.get(i);
             Coord reachedFromCoord = curCoord.originalCoord;
-            double beliefStateCell = beliefState[reachedFromCoord.x][reachedFromCoord.y];
+            double beliefStateCell = lastBeliefState[reachedFromCoord.x][reachedFromCoord.y];
 
             double rtnProb = curCoord.prob;
             double summationPart = beliefStateCell * rtnProb;
@@ -171,7 +194,7 @@ public class Main {
     public static void firstSequence(){
         String[] actions = {"up", "up", "up"};
         String[] observations = {"2","2","2"};
-        setUniformBeliefState();
+        getUniformBeliefState(); //TODO
 
 //        Main.beliefUpdate(beliefState, actions, observations);
         Main.oneBeliefUpdate("up", "2");
@@ -180,18 +203,9 @@ public class Main {
     public static void secondSequence(){
         String[] actions = {"up", "up", "up"};
         String[] observations = {"1","1","1"};
-        setUniformBeliefState();
+        getUniformBeliefState(); //todo
 
         Main.beliefUpdate(beliefState, actions, observations);
-    }
-    public static double subFormulaDoSummation(List<Integer> x, List<Integer> y, List<Double> probs){
-        //Does the summation part of the formula.
-        int rtnVal = 0;
-        for(int i = 0; i < x.size(); i++){
-            rtnVal += (probs.get(i) * beliefState[x.get(i)][y.get(i)]);
-        }
-
-        return rtnVal;
     }
 
 }
