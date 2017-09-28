@@ -12,6 +12,7 @@ public class Main {
     //beliefState<0, 3> = beliefStateValue for (0,3)
 //    static Map<Integer, Map<Integer, Integer>> beliefState;
 
+    static double[][] lastBeliefState;
     static double[][] beliefState;
     static StateReachable[][] stateReachables;
 
@@ -30,6 +31,8 @@ public class Main {
              actions) {
             oneBeliefUpdate(action, "2");
         }
+
+
     }
 
 
@@ -59,7 +62,8 @@ public class Main {
 
     //0.111 for each square if initial state not given.
     public static double[][] beliefUpdate(double[][] initialBeliefState, String[] actions, String[] observations){
-
+        lastBeliefState = initialBeliefState;
+        double[][] intermBeliefState = initialBeliefState;
         if(actions.length == 0){
             return initialBeliefState;
         }
@@ -72,6 +76,7 @@ public class Main {
         }else if(observations[observations.length -1].equals("end")){
 
         }
+
         return beliefState;
     }
 
@@ -89,7 +94,7 @@ public class Main {
                     stateReachables[x][y] = new StateReachable(new Coord(x, y),givenAction);
 
 
-                    double summationValue = doSummation(x, y, stateReachables[x][y]);
+                    double summationValue = doSummation(stateReachables[x][y]);
 
                     beliefState[x][y] =  sensorProb * summationValue;
 
@@ -138,17 +143,24 @@ public class Main {
 
 
 
-    public static double doSummation(int x, int y, StateReachable stateReachable){
+    public static double doSummation(StateReachable stateReachable){
         double summationValue = 0;
         for(int i = 0; i < stateReachable.rtnCoords.size(); i++){
+
             CoordAction curCoord = stateReachable.rtnCoords.get(i);
             Coord reachedFromCoord = curCoord.originalCoord;
-            int reachedFromX = reachedFromCoord.x; //For debugging
-            int reachedFromY = reachedFromCoord.y; //For debugging
-            double beliefStateCell = beliefState[reachedFromX][reachedFromY];
+            double beliefStateCell = beliefState[reachedFromCoord.x][reachedFromCoord.y];
 
             double rtnProb = curCoord.prob;
-            summationValue += (beliefStateCell * rtnProb);
+            double summationPart = beliefStateCell * rtnProb;
+            double oldSummation = summationValue;
+
+
+            summationValue = oldSummation + summationPart;
+
+            if(stateReachable.originalCoord.x == 3 && stateReachable.originalCoord.y == 1){
+                boolean sup = false;
+            }
             System.out.println("sup");
         }
 
