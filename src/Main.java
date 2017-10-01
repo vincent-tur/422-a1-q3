@@ -24,23 +24,44 @@ public class Main {
         intermBeliefState = new double[4][3];
         beliefState = new double[4][3];
         stateReachables = new StateReachable[4][3];
-        testSequence();
+        fourthSequence();
 //        firstSequence();
+    }
+
+    public static void printBeliefState(double[][] beliefState){
+        for(int y = 2; y >= 0; y--){
+            String rowStr = "";
+
+            for(int x = 0; x <= 3; x++){
+                String tab = "";
+                if(x != 3)
+                    tab = "\t\t";
+
+                rowStr += "b(" + (x+1) + "," + (y+1) + ") = " + beliefState[x][y] + tab;
+                beliefState[x][y] = 0;
+            }
+            System.out.println(rowStr);
+
+        }
     }
 
     public static void testSequence(){
         String[] actions = {"left", "left", "left", "left", "left"};
-        String[] observations = {"2","2","2","2","2"};
-//        getUniformBeliefState();
-//        for (String action:
-//             actions) {
-//            oneBeliefUpdate(action, "2");
-//        }
-
+        String[] observations = {"none","none","none","none","none"};
         beliefUpdate(getUniformBeliefState(), actions, observations);
-
     }
 
+    public static double[][] getKnownInitialBeliefState(Coord knownState){
+        double [][] beliefState = new double[4][3];
+        for(int x = 0; x < 4; x++){
+            for(int y = 0; y < 3; y++){
+                beliefState[x][y] = 0;
+            }
+        }
+
+        beliefState[knownState.x][knownState.y] = 1;
+        return beliefState;
+    }
 
 
     public static double[][] getUniformBeliefState(){
@@ -72,25 +93,23 @@ public class Main {
     //0.111 for each square if initial state not given.
     public static double[][] beliefUpdate(double[][] initialBeliefState, String[] actions, String[] observations){
         beliefState = initialBeliefState;
-//        if(actions.length == 0){
-//            return initialBeliefState;
-//        }
-//
-//        int observationProb = 0;
-//        if(observations[observations.length -1].equals("1")){
-//
-//        }else if(observations[observations.length -1].equals("2")){
-//
-//        }else if(observations[observations.length -1].equals("end")){
-//
-//        }
         for(int i = 0; i < actions.length; i++){
             lastBeliefState = cloneBeliefState(beliefState);
             intermBeliefState = cloneBeliefState(beliefState);
             beliefState = oneBeliefUpdate(actions[i], observations[i]);
-            boolean iz = false;
         }
 
+        beliefState = roundOff(beliefState);
+        printBeliefState(beliefState);
+
+        return beliefState;
+    }
+    public static double[][] roundOff(double[][] beliefState){
+        for(int x = 0; x < 4; x++){
+            for(int y = 0; y < 3; y++){
+                beliefState[x][y] = Math.round(beliefState[x][y] * 1000.0) / 1000.0;
+            }
+        }
         return beliefState;
     }
 
@@ -107,28 +126,28 @@ public class Main {
     public static double[][] oneBeliefUpdate(String givenAction, String observation){
 
 //        double alpha = 1; //TODO https://piazza.com/class/j6zftw7rj7z5bx?cid=71  IT'S NOT 1/K. Normalize values!
-        int sensorProb = 1; //TODO
+
 
         for(int x = 0; x < 4; x++){
             for(int y = 0; y < 3; y++){
                 if(!(x == 1 && y==1)){
-                    if(x == 3 && y == 1){
-                        System.out.println("yo");
-                    }
-                    stateReachables[x][y] = new StateReachable(new Coord(x, y),givenAction);
-
-
+//                    if(x == 3 && y == 1){
+//                        System.out.println("yo");
+//                    }
+                    stateReachables[x][y] = new StateReachable(new Coord(x, y),givenAction, observation);
                     double summationValue = doSummation(stateReachables[x][y]);
+                    double sensorProb = stateReachables[x][y].getSensorProb();
 
                     intermBeliefState[x][y] =  sensorProb * summationValue;
 
-                    normalizeTable();
 
-                    double totalCheck = getTotal();
-                    System.out.println(totalCheck);
+
+
                 }
             }
         }
+        normalizeTable();
+        double totalCheck = getTotal();
 
         return intermBeliefState;
     }
@@ -144,7 +163,7 @@ public class Main {
             for(int y = 0; y < 3; y++){
                 if(!(x == 1 && y == 1)){
                     counter++;
-                    runningSum += beliefState[x][y];
+                    runningSum += intermBeliefState[x][y];
                 }
             }
         }
@@ -159,7 +178,7 @@ public class Main {
         for(int x = 0; x < 4; x++){
             for(int y = 0; y < 3; y++){
                 if(!(x == 1 && y == 1)){
-                    beliefState[x][y] = (beliefState[x][y] / total);
+                    intermBeliefState[x][y] = (intermBeliefState[x][y] / total);
                 }
             }
         }
@@ -173,10 +192,10 @@ public class Main {
 
             CoordAction curCoord = stateReachable.rtnCoords.get(i);
             Coord reachedFromCoord = curCoord.originalCoord;
-            double beliefStateCell = lastBeliefState[reachedFromCoord.x][reachedFromCoord.y];
+            double oldBeliefValue = lastBeliefState[reachedFromCoord.x][reachedFromCoord.y];
 
             double rtnProb = curCoord.prob;
-            double summationPart = beliefStateCell * rtnProb;
+            double summationPart = oldBeliefValue * rtnProb;
             double oldSummation = summationValue;
 
 
@@ -185,28 +204,32 @@ public class Main {
             if(stateReachable.originalCoord.x == 3 && stateReachable.originalCoord.y == 1){
                 boolean sup = false;
             }
-            System.out.println("sup");
+
         }
 
         return summationValue;
     }
 
-
     public static void firstSequence(){
         String[] actions = {"up", "up", "up"};
         String[] observations = {"2","2","2"};
-        getUniformBeliefState(); //TODO
-
-//        Main.beliefUpdate(beliefState, actions, observations);
-        Main.oneBeliefUpdate("up", "2");
-
+        beliefUpdate(getUniformBeliefState(), actions, observations);
     }
     public static void secondSequence(){
         String[] actions = {"up", "up", "up"};
         String[] observations = {"1","1","1"};
-        getUniformBeliefState(); //todo
-
-        Main.beliefUpdate(beliefState, actions, observations);
+        beliefUpdate(getUniformBeliefState(), actions, observations);
     }
+    public static void thirdSequence(){
+        String[] actions = {"right", "right", "up"};
+        String[] observations = {"1","1","end"};
+        beliefUpdate(getKnownInitialBeliefState(new Coord(1,2)), actions, observations);
+    }
+    public static void fourthSequence(){
+        String[] actions = {"up", "right", "right", "right"};
+        String[] observations = {"2","2","1","1"};
+        beliefUpdate(getKnownInitialBeliefState(new Coord(0,0)), actions, observations);
+    }
+
 
 }

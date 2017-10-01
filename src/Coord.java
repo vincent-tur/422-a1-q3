@@ -23,6 +23,18 @@ public class Coord {
         return false;
     }
 
+    public boolean getIsThirdColumn(){
+        if(isTerminalState()){
+            return false;
+        }
+
+        if(this.x == 2){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public boolean isTerminalState(){
         if(x == 3 && y == 1){
             return true;

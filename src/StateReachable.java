@@ -9,9 +9,12 @@ public class StateReachable {
     public Coord originalCoord;
     public ArrayList<CoordAction> rtnCoords;
     public String action;
+    public String observation;
 
     public List<CoordAction> potentialCoords;
     public CoordActionList newPotentialCoords;
+
+    public boolean dbg_noSensor;
     //
 //    public List<Integer> rtnX = new ArrayList<Integer>();
 //    public List<Integer> rtnY = new ArrayList<Integer>();
@@ -19,7 +22,10 @@ public class StateReachable {
 //    public List<Double> rtnProb = new ArrayList<Double>();
 
 
-    public StateReachable(Coord originalCoord, String action){
+    public StateReachable(Coord originalCoord, String action, String observation){
+        dbg_noSensor = false;
+        this.observation = observation;
+
         rtnCoords = new ArrayList<CoordAction>();
         this.action = action;
         this.originalCoord = originalCoord;
@@ -94,6 +100,38 @@ public class StateReachable {
         }
 
 
+    }
+
+    public double getSensorProb(){
+        if(this.dbg_noSensor){
+            return 1;
+        }
+
+        if(this.observation.equals("1")){
+            if(this.originalCoord.getIsThirdColumn()){
+                return 0.1;
+            }else if(this.originalCoord.isTerminalState()){
+                return 0;
+            }else{
+                return 0.9;
+            }
+        }else if(this.observation.equals("2")){
+            if(this.originalCoord.getIsThirdColumn()){
+                return 0.9;
+            }else if(this.originalCoord.isTerminalState()){
+                return 0;
+            }else{
+                return 0.1;
+            }
+        }else if(this.observation.equals("end")){
+            if(this.originalCoord.isTerminalState()){
+                return 1;
+            }else{
+                return 0;
+            }
+        }else{
+            return 1;
+        }
     }
 
     public void populateRtnCoords(){

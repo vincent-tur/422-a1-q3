@@ -1,20 +1,20 @@
 public class CoordAction extends Coord {
     public String action;
+    public String observation;
 
     public Coord checkCoord;
     public Coord originalCoord;
-
     public Coord finalCoord;
 
     public double prob;
 
     public int potentialCoordIndex;
 
-
     public boolean isTerminal;
+
     public CoordAction(Coord checkCoord, Coord originalCoord, String action, double prob){
         isTerminal = false;
-
+        this.observation = observation;
         this.checkCoord = checkCoord;
         this.originalCoord = originalCoord;
         if(this.originalCoord.isTerminalState()){
@@ -30,6 +30,10 @@ public class CoordAction extends Coord {
         wallDetect();
     }
 
+
+
+
+
     public void wallDetect(){
         Coord tempCoord = new Coord(checkCoord.x, checkCoord.y);
 
@@ -44,6 +48,10 @@ public class CoordAction extends Coord {
             setFinalCoord(tempCoord);
             this.finalCoord = tempCoord;
         }
+    }
+
+    public boolean isTerminalFinal(){
+        return this.isTerminalState(this.finalCoord);
     }
 
     public boolean isTerminalOriginally(){
